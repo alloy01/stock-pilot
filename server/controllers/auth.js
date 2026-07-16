@@ -3,9 +3,9 @@ import jwt from 'jsonwebtoken';
 import {userModel} from '../models/users.js';
 
 export const register = async (req,res)=>{
-    const {name,email,password} = req.body;
+    const {email,password} = req.body;
 
-    if(!name || !email || !password){
+    if(!email || !password){
         return res.json({
             success:false,
             message:'Missing Details'
@@ -25,7 +25,6 @@ export const register = async (req,res)=>{
 
         const hashedPassword = await bcrypt.hash(password,10)
         const user = new userModel({
-            name,
             email,
             password:hashedPassword
         })
@@ -42,6 +41,11 @@ export const register = async (req,res)=>{
             maxAge: 30*24*60*60*1000
         })
         //send token as a cookie through response that varies on node enviornment with maxAge in secs 
+
+        return res.json({
+            success:true,
+            message:'welcome'
+        })
     }
     catch(err){
         res.json({success:false, message: err.message})
@@ -92,7 +96,10 @@ export const login = async (req,res)=>{
         })
         //send token as a cookie through response that varies on node enviornment with maxAge in secs 
 
-        return res.json({success:true})
+        return res.json({
+            success:true,
+            message:'welcome'
+        })
     }
     catch(err){
         return res.json({

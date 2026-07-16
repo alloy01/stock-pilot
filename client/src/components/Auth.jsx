@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import axios from 'axios'
 
 const auth = () => {
   // hide and show func for password
@@ -31,7 +32,40 @@ const auth = () => {
       handleSignWall()
     }
   }
-  
+
+  // handle submit button
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    try{
+      const payload = formData
+      const response = await axios.post(`${import.meta.env.VITE_API_LINK}/api/auth/${signWall ? `register` : `login`}`,payload)
+      console.log(response.data) //temporary thingy for development
+      if(response.data.success){
+        setFormData({
+          email:'',
+          password:''
+        })
+      }
+    }catch(err){
+      console.log('Error sending data:',err.response ? err.response.data : err.message)
+    }
+  }
+
+  // form data
+  const [formData,setFormData] = useState({
+    email: '',
+    password: ''
+  })
+
+  // update form data
+  const handleChange = (e) => {
+    const {name,value} = e.target
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]:value
+    }))
+  }
   
   return (
     <div className='h-auto w-auto'>
@@ -49,12 +83,12 @@ const auth = () => {
           </div>
 
           {/* form for auth */}
-          <form action="" method="" className='flex flex-col gap-y-2'>
-            <input type="email" name="email" placeholder='enter your email.'  className='outline-0 py-1 text-slate-300 font-mono'/>
+          <form onSubmit={handleSubmit} className='flex flex-col gap-y-2'>
+            <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder='enter your email.'  className='outline-0 py-1 text-slate-300 font-mono'/>
 
             {/* div containing toggle button and password */}
             <div className='flex justify-between'>
-              <input type={`${showPass ? `text` : `password`}`} name="password" placeholder='enter your password.'  className='outline-0 py-1 text-slate-300 font-mono'/>
+              <input type={`${showPass ? `text` : `password`}`} name="password" placeholder='enter your password.' value={formData.password} onChange={handleChange} className='outline-0 py-1 text-slate-300 font-mono'/>
               <button onClick={handleShowPass} type='button' className='text-slate-400 font-mono'>{`${showPass ? `hide` : `show`}`}</button>
             </div>
             <button type="submit" className='font-mono text-slate-100 mt-3 py-1 border'>

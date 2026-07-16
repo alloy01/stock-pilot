@@ -3,6 +3,7 @@ import { connectDB } from "./configs/db_config.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import { auth_router } from "./routes/auth_routes.js";
+import 'dotenv/config'
 
 const app = express(); 
 //create the Express application instance
