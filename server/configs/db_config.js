@@ -7,7 +7,11 @@ const connectDB = async () => {
     });
     //mongoose.connection.on works similar to event listener being added such that when the mongoose successfully connects to the database given below near the await line it logs the connection status on console.
     
-    await mongoose.connect(`${process.env.MONGODB_URI}/stock-pilot`);
+    try{
+        await mongoose.connect(`${process.env.MONGODB_URI}/stock-pilot`);
+    }catch (err){
+        console.log("MongoDB connection failed.",err.message)
+    }
     //enter the database URI to connect with the server.
 };
 

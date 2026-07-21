@@ -8,7 +8,7 @@ export const register = async (req,res)=>{
     if(!email || !password){
         return res.json({
             success:false,
-            message:'Missing Details'
+            message:'Missing details.'
         })
     }
     //check if details are incomplete
@@ -18,7 +18,7 @@ export const register = async (req,res)=>{
         if(existingUser){
             return res.json({
                 success:false,
-                message:'User Already Exists'
+                message:'User already exists.'
             })
         }
         //check if theres already an existing user with same email
@@ -44,11 +44,14 @@ export const register = async (req,res)=>{
 
         return res.json({
             success:true,
-            message:'welcome'
+            message:'Welcome.'
         })
     }
     catch(err){
-        res.json({success:false, message: err.message})
+        res.json({
+            success:false, 
+            message: err.message
+        })
     }
 }
 
@@ -59,7 +62,7 @@ export const login = async (req,res)=>{
     if(!email || !password){
         return res.json({
             success:false,
-            message:'Email and Password are required'
+            message:'Email and Password are required.'
         })
     }
     //check for missing detail
@@ -71,7 +74,7 @@ export const login = async (req,res)=>{
         if(!user){
             return res.json({
                 success:false,
-                message:'Invalid Email or Password'
+                message:'Invalid email or password.'
             })
         }
         //if user doesnt exist then response will be invalid email or password to avoid brute force attempt by intruder
@@ -80,7 +83,7 @@ export const login = async (req,res)=>{
         if(!isMatch){
             return res.json({
                 success:false,
-                message:'Invalid Email or Password'
+                message:'Invalid email or password.'
             })
         }
         //if password is wrong then response will be invalid email or password to avoid brute force attempt by intruder
@@ -98,7 +101,7 @@ export const login = async (req,res)=>{
 
         return res.json({
             success:true,
-            message:'welcome'
+            message:'Welcome.'
         })
     }
     catch(err){
@@ -120,7 +123,7 @@ export const logout = async (req,res) => {
 
         return res.json({
             success:true,
-            message:'logged out of the account'
+            message:'Logged out of the account.'
         })
     }
     catch(err){

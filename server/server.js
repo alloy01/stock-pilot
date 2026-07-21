@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import { auth_router } from "./routes/auth_routes.js";
 import 'dotenv/config'
+import { item_router } from "./routes/item_routes.js";
 
 const app = express(); 
 //create the Express application instance
@@ -35,6 +36,9 @@ app.get('/api',(req,res)=>{
 
 app.use('/api/auth',auth_router);
 //using auth_router as a middleware that executes desired functions
+
+app.use('/api/item',item_router);
+//using item_router as a middleware that executes desired fucntions
 
 app.listen(port,()=>{
   console.log(`Server has been started on PORT:${port}`)
