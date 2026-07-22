@@ -3,6 +3,14 @@ import jwt from 'jsonwebtoken';
 import {userModel} from '../models/users.js';
 
 export const register = async (req,res)=>{
+    if(!req.body){
+        return res.json({
+            success:false,
+            message:"No data provided."
+        })
+    }
+    //check if req.body is empty
+
     const {email,password} = req.body;
 
     if(!email || !password){
@@ -56,6 +64,14 @@ export const register = async (req,res)=>{
 }
 
 export const login = async (req,res)=>{
+    if(!req.body){
+        return res.json({
+            success:false,
+            message:"No data provided."
+        })
+    }
+    //check if req.body is empty
+
     const {email,password} = req.body;
     //get email and password from the body of request 
 

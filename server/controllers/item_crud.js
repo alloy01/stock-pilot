@@ -75,7 +75,7 @@ export const editItem = async(req,res) => {
     }
     //check if details are missing
 
-    if(!newName || !newDesc || !newCategory || !newCostPrice || !newSupplier || !newSupplier || !newUnit){
+    if(!newName && !newDesc && !newCategory &&!newCostPrice && !newSupplier && !newSupplier && !newUnit){
         return res.json({
             success:false,
             message:"No parameter detected for updation."
@@ -107,10 +107,97 @@ export const editItem = async(req,res) => {
 
         return res.json({
             success:true,
-            messagge:"Details updated successfully."
+            message:"Details updated successfully."
         })
     }
     catch(err){ 
+        return res.json({
+            success:false,
+            message:err.message
+        })
+    }
+}
+
+export const deleteItem = async(req,res) => {
+    if(!req.body){
+        return res.json({
+            success:false,
+            message:"No data provided."
+        })
+    }
+    //check if req.body is empty
+
+    const {name} = req.body;
+
+    if(!name){
+        return res.json({
+            success:false,
+            message:"Missing detail."
+        })
+    }
+
+    try{
+        const item = await itemModel.findOne({name})
+
+        if(!item){
+            return res.json({
+                success:false,
+                message:'Item does not exist.'
+            })
+        }
+        //handling the case if item does not exist
+
+        await itemModel.findOneAndDelete({name})
+
+        return res.json({
+            success:true,
+            message:"Item was deleted successfully."
+        })
+    }
+    catch(err){
+
+    }
+}
+
+export const filterItem = async (req,res) => {
+    if(!req.body){
+        return res.json({
+            success:false,
+            message:"No data provided."
+        })
+    }
+    //check if req.body is empty
+
+    const {filter,param} = req.body;
+    if(!filter || !param){
+        return res.json({
+            success:false,
+            message:"Filter or param not provided."
+        })
+    }
+    //filter is the field name, param is the value to search for (e.g., category = "medicine")
+
+    try{
+        const items = await itemModel.find({
+            [filter] : param
+        })
+        //find the matches of filter x param
+
+        if(items.length == 0){
+            return res.json({
+                success:false,
+                message:"No matches of filter & param found."
+            })
+        }
+        //handling if match not found
+
+        return res.json({
+            success:true,
+            message:"Match of filter & param found.",
+            payload:items
+        })
+    }
+    catch(err){
         return res.json({
             success:false,
             message:err.message

@@ -36,7 +36,7 @@ const itemSchema = mongoose.Schema({
         enum:["Out of Stock","In Stock"],
         default:"Out of Stock"
     }
-},{timeStamps:true});
+},{timestamps:true});
 //create a schema with the required attributes in it
 
 const itemModel = mongoose.model('item',itemSchema);
