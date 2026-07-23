@@ -1,4 +1,5 @@
 import { userModel } from "../models/user.js";
+import { res_help } from "../../utils/response.js";
 
 export const getData = async (req,res) =>{
     const {userId} = req.body;
@@ -8,10 +9,7 @@ export const getData = async (req,res) =>{
         const user = await userModel.findById(userId)
 
         if(!user){
-            return res.json({
-                success:false,
-                message:"User doesn't exist"
-            })
+            return res_help(res,false,"User does not exist.")
         }
         //checks if user exists or not
 
@@ -24,9 +22,6 @@ export const getData = async (req,res) =>{
         })
     } 
     catch(err){
-        return res.json({
-            success: false,
-            message: err.message
-        })
+        return res_help(res,false,err.message.toString())
     }
 }

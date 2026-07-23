@@ -1,12 +1,10 @@
 import jwt from 'jsonwebtoken';
+import { res_help } from '../utils/response';
 
 const userAuth = async(req,res,next) => {
     const {token} = req.cookies;
     if(!token){
-        return res.json({
-            success:false,
-            message:'Not Authorized. Login again.'
-        })
+        return res_help(res,false,"Not authorized.login again.")
     }
     //checks if token exists or not
 
@@ -18,10 +16,7 @@ const userAuth = async(req,res,next) => {
             
         }
         else{
-            return res.json({
-                success:false,
-                message: 'Not Authorized. Login again.'
-            })
+            return res_help(res,false,"Not authorized.login again.")
         }
         //decodes token and attaches token id to req.body
 
@@ -29,10 +24,7 @@ const userAuth = async(req,res,next) => {
         //since this function is a middleware there will be a next function to that needs to be executed 
     }
     catch(err){
-        return res.json({
-            success:false,
-            message:err.message
-        })
+        return res_help(res,false,err.message.toString())
     }
 }
 

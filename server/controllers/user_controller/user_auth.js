@@ -1,33 +1,25 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import {userModel} from '../../models/users.js';
+import { res_help } from '../../utils/response.js';
 
 export const register = async (req,res)=>{
     if(!req.body){
-        return res.json({
-            success:false,
-            message:"No data provided."
-        })
+        return res_help(res,false,"No data provided.")
     }
     //check if req.body is empty
 
     const {email,password} = req.body;
 
     if(!email || !password){
-        return res.json({
-            success:false,
-            message:'Missing details.'
-        })
+        return res_help(res,false,"Incomplete details.")
     }
     //check if details are incomplete
 
     try{
         const existingUser = await userModel.findOne({email})
         if(existingUser){
-            return res.json({
-                success:false,
-                message:'User already exists.'
-            })
+            return res_help(res,false,"User already exists.")
         }
         //check if theres already an existing user with same email
 
@@ -50,25 +42,16 @@ export const register = async (req,res)=>{
         })
         //send token as a cookie through response that varies on node enviornment with maxAge in secs 
 
-        return res.json({
-            success:true,
-            message:'Welcome.'
-        })
+        return res_help(res,true,"Welcome.")
     }
     catch(err){
-        res.json({
-            success:false, 
-            message: err.message
-        })
+        return res_help(res,false,err.message.toString())
     }
 }
 
 export const login = async (req,res)=>{
     if(!req.body){
-        return res.json({
-            success:false,
-            message:"No data provided."
-        })
+        return res_help(res,false,"No data provided.")
     }
     //check if req.body is empty
 
@@ -76,10 +59,7 @@ export const login = async (req,res)=>{
     //get email and password from the body of request 
 
     if(!email || !password){
-        return res.json({
-            success:false,
-            message:'Email and Password are required.'
-        })
+        return res_help(res,false,"Email and password are required.")
     }
     //check for missing detail
 
@@ -88,19 +68,13 @@ export const login = async (req,res)=>{
         //find user with the help of email
 
         if(!user){
-            return res.json({
-                success:false,
-                message:'Invalid email or password.'
-            })
+            return res_help(res,false,"Invalid email or password.")
         }
         //if user doesnt exist then response will be invalid email or password to avoid brute force attempt by intruder
 
         const isMatch = await bcrypt.compare(password,user.password)
         if(!isMatch){
-            return res.json({
-                success:false,
-                message:'Invalid email or password.'
-            })
+            return res_help(res,false,"Invalid email or password.")
         }
         //if password is wrong then response will be invalid email or password to avoid brute force attempt by intruder
 
@@ -115,16 +89,10 @@ export const login = async (req,res)=>{
         })
         //send token as a cookie through response that varies on node enviornment with maxAge in secs 
 
-        return res.json({
-            success:true,
-            message:'Welcome.'
-        })
+        return res_help(res,true,"Welcome.")
     }
     catch(err){
-        return res.json({
-            success:false,
-            message: err.message
-        })
+        return res_help(res,false,err.message.toString())
     }
 }
 
@@ -137,16 +105,10 @@ export const logout = async (req,res) => {
         })
         //clearing a cookie and terminating a session
 
-        return res.json({
-            success:true,
-            message:'Logged out of the account.'
-        })
+        return res_help(res,true,"Logged out of account.")
     }
     catch(err){
-        return res.json({
-            success:false, 
-            message:err.message
-        })
+        return res_help(res,false,err.message.toString())
     }
 }
 
@@ -157,10 +119,7 @@ export const isAuthenticated = async (req,res)=>{
         })
     }
     catch(err){
-        return res.json({
-            success: false,
-            message: err.message
-        })
+        return res_help(res,false,err.message.toString())
     }
 }
 //a function that will be used in a route which then will be called by client side to check whether the user is authenticated or not

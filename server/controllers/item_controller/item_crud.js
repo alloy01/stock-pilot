@@ -1,31 +1,23 @@
 import {itemModel} from "../../models/items.js"
+import { res_help } from "../../utils/response.js";
 
 export const addItem = async(req,res) => {
     if(!req.body){
-        return res.json({
-            success:false,
-            message:"No data provided."
-        })
+        return res_help(res,false,"No data provided.")
     }
     //check if req.body is empty
 
     const {name,desc,category,quantity,unit,costPrice,supplier,status} = req.body;
 
     if(!name || !category || !quantity || !costPrice || !supplier){
-        return res.json({
-            success:false,
-            message:"Incomplete details."
-        })
+        return res_help(res,false,"Incomplete details.")
     }
     //check if required details are present
 
     try{
         const existingItem = await itemModel.findOne({name})
         if(existingItem){
-            return res.json({
-                success:false,
-                message:'Item already exists.'
-            })
+            return res_help(res,false,"Item already exists.")
         }
         //check if theres already an item with the same name
 
@@ -43,52 +35,34 @@ export const addItem = async(req,res) => {
         await item.save();
         //save the item
 
-        return res.json({
-            success:true,
-            message:"Item added successfully."
-        })
+        return res_help(res,true,"Item added successfully.")
     }
     catch(err){
-        return res.json({
-            success:false,
-            message:err.message
-    })
+        return res_help(res,false,err.message.toString())
     }
 }
 
 export const editItem = async(req,res) => {
     if(!req.body){
-        return res.json({
-            success:false,
-            message:"No data provided."
-        })
+        return res_help(res,false,"No data provided.")
     }
     // check if req.body is empty 
 
     const {name,newName,newSupplier,newQuantity,newCostPrice,newStatus,newCategory,newUnit,newDesc} = req.body;
 
     if(!name){
-        return res.json({
-            success:false,
-            message:"Missing detail."
-        })
+        return res_help(res,false,"Incomplete details.")
     }
     //check if details are missing
 
     if(!newName && !newDesc && !newCategory &&!newCostPrice && !newSupplier && !newSupplier && !newUnit){
-        return res.json({
-            success:false,
-            message:"No parameter detected for updation."
-        })
+        return res_help(res,false,"No parameter for updataion.")
     }
 
     try{
         const existingItem = await itemModel.findOne({name})
         if(!existingItem){
-            return res.json({
-                success:false,
-                message:'Item does not exist.'
-            })
+            return res_help(res,false,"Item does not exist.")
         }
         //handling the case if item does not exist
 
@@ -105,75 +79,51 @@ export const editItem = async(req,res) => {
         },{new:true});
         // update the variables whose parameters are present
 
-        return res.json({
-            success:true,
-            message:"Details updated successfully."
-        })
+        return res_help(res,true,"Item updated successfully.")
     }
     catch(err){ 
-        return res.json({
-            success:false,
-            message:err.message
-        })
+        return res_help(res,false,err.message.toString())
     }
 }
 
 export const deleteItem = async(req,res) => {
     if(!req.body){
-        return res.json({
-            success:false,
-            message:"No data provided."
-        })
+        return res_help(res,false,"No data provided.")
     }
     //check if req.body is empty
 
     const {name} = req.body;
 
     if(!name){
-        return res.json({
-            success:false,
-            message:"Missing detail."
-        })
+        return res_help(res,false,"Incomplete details.")
     }
 
     try{
         const item = await itemModel.findOne({name})
 
         if(!item){
-            return res.json({
-                success:false,
-                message:'Item does not exist.'
-            })
+            return res_help(res,false,"Item does not exist.")
         }
         //handling the case if item does not exist
 
         await itemModel.findOneAndDelete({name})
 
-        return res.json({
-            success:true,
-            message:"Item was deleted successfully."
-        })
+        return res_help(res,true,"Item was deleted successfully.")
     }
     catch(err){
-
+        return res_help(res,false,err.message.toString())
     }
 }
 
 export const filterItem = async (req,res) => {
     if(!req.body){
-        return res.json({
-            success:false,
-            message:"No data provided."
-        })
+        return res_help(res,false,"No data provided.")
     }
     //check if req.body is empty
 
     const {filter,param} = req.body;
     if(!filter || !param){
-        return res.json({
-            success:false,
-            message:"Filter or param not provided."
-        })
+        return res_help(res,false,"No filter or param provided.")
     }
     //filter is the field name, param is the value to search for (e.g., category = "medicine")
 
@@ -184,10 +134,7 @@ export const filterItem = async (req,res) => {
         //find the matches of filter x param
 
         if(items.length == 0){
-            return res.json({
-                success:false,
-                message:"No matches of filter & param found."
-            })
+            return res_help(res,false,"No matches of filter & param found.")
         }
         //handling if match not found
 
@@ -198,9 +145,6 @@ export const filterItem = async (req,res) => {
         })
     }
     catch(err){
-        return res.json({
-            success:false,
-            message:err.message
-        })
+        return res_help(res,false,err.message.toString())
     }
 }
