@@ -1,4 +1,4 @@
-import {itemModel} from "../models/items.js"
+import {itemModel} from "../../models/items.js"
 
 export const addItem = async(req,res) => {
     if(!req.body){
