@@ -1,5 +1,5 @@
 import express from 'express';
-import { addItem, deleteItem, editItem, filterItem } from '../controllers/item_crud.js';
+import { addItem, deleteItem, editItem, filterItem } from '../controllers/item_controller/item_crud.js';
 
 const item_router = express.Router();
 
