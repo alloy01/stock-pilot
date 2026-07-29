@@ -1,11 +1,13 @@
-import React from 'react'
+import { Routes, Route } from "react-router-dom";
 import Auth from './components/Auth'
+import Login from "./pages/Login";
+
 const App = () => {
-  return (
-    <div className="bg-black h-screen">
-      <Auth/>
-    </div>
-  )
+	return (
+		<Routes>
+			<Route path="/" element={<Login />} />
+		</Routes>
+	)
 }
 
 export default App
