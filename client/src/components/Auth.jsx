@@ -1,7 +1,12 @@
-import { useState } from "react";
-import axios from "axios";
+import { useState, useContext } from "react";
+import { AuthContext } from "../context/AuthContext.jsx";
+import { useNavigate } from "react-router-dom";
+import api from "../api/axios.js";
 
 const Auth = () => {
+	const { checkAuth } = useContext(AuthContext);
+	const navigate = useNavigate();
+
 	// hide and show func for password
     const [showPass, setShowPass] = useState(false);
  	const handleShowPass = () => {
@@ -45,9 +50,9 @@ const Auth = () => {
 
 		try {
 		const payload = formData;
-		const response = await axios.post(
-			`${import.meta.env.VITE_API_LINK}/api/auth/${signWall ? `register` : `login`}`,
-			payload,
+		const response = await api.post(
+			`${import.meta.env.VITE_API_URL}/auth/${signWall ? `register` : `login`}`,
+			payload
 		);
 
 		console.log(response.data); //temporary thingy for development
@@ -58,9 +63,12 @@ const Auth = () => {
 			password: "",
 			});
 
-			if (response.data.success) {
-				setAuthWall(false);
-			}
+			 // backend already created cookie
+			await checkAuth();
+
+			// go inside the app
+			navigate("/dashboard");
+
 			setToast(response.data.message)
 			setTimeout(() => {
   				setToast("");
