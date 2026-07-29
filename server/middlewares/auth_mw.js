@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { res_help } from '../utils/response';
+import { res_help } from '../utils/response.js';
 
 const userAuth = async(req,res,next) => {
     const {token} = req.cookies;
@@ -9,14 +9,12 @@ const userAuth = async(req,res,next) => {
     //checks if token exists or not
 
     try{
-        const tokenDecode = jwt.verify(token,proccess.env.JWT_SECRET);
+        const tokenDecode = jwt.verify(token,process.env.JWT_SECRET);
         if(tokenDecode.id){
-            req.body = req.body || {};
-            req.body.userId = tokenDecode.id;
-            
+            req.user = { id: tokenDecode.id }
         }
         else{
-            return res_help(res,false,"Not authorized.login again.")
+            return res_help(res,false,"Not authorized, login again.")
         }
         //decodes token and attaches token id to req.body
 

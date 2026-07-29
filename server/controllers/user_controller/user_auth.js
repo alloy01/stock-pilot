@@ -115,11 +115,12 @@ export const logout = async (req,res) => {
 export const isAuthenticated = async (req,res)=>{
     try{
         return res.json({
-            success:true
-        })
+            success:true,
+            userId:req.user.id
+        });
     }
     catch(err){
-        return res_help(res,false,err.message.toString())
+        return res_help(res,false,err.message.toString());
     }
 }
 //a function that will be used in a route which then will be called by client side to check whether the user is authenticated or not
