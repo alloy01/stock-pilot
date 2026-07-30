@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import api from "../api/axios.js";
 
 const Auth = () => {
+	// to see whether user is authenticated or not if not then redirect it to '/'
 	const { checkAuth } = useContext(AuthContext);
 	const navigate = useNavigate();
 
@@ -50,6 +51,7 @@ const Auth = () => {
 
 		try {
 		const payload = formData;
+
 		const response = await api.post(
 			`${import.meta.env.VITE_API_URL}/auth/${signWall ? `register` : `login`}`,
 			payload
@@ -57,45 +59,49 @@ const Auth = () => {
 
 		console.log(response.data); //temporary thingy for development
 
-		if (response.data) {
+		if (response.data){
 			setFormData({
 			email: "",
 			password: "",
 			});
 
-			 // backend already created cookie
+			// backend already created cookie
 			await checkAuth();
 
 			// go inside the app
 			navigate("/dashboard");
 
 			setToast(response.data.message)
+			// automatically hides the toast after 3000ms
 			setTimeout(() => {
   				setToast("");
 			}, 3000)
 		}}
 
 		catch (err) {
-		setToast(err.message)
-		setTimeout(() => {
-  				setToast("");
-			}, 3000)
+			// shows the error message in toast
+			setToast(err.message)
+			setTimeout(() => {
+					setToast("");
+				}, 3000)
 		}
 	};
 
-	// form data
+	// initial form data
 	const [formData, setFormData] = useState({
 		email: "",
 		password: "",
 	});
 
-  	// update form data
+  	// controlled input
 	const handleChange = (e) => {
-	const { name, value } = e.target;
-    setFormData((prevData) => ({
-      	...prevData,
-      	[name]: value,
-    }))};
+		const { name, value } = e.target;
+
+		setFormData((prevData) => ({
+			...prevData,
+			[name]: value,
+		}))
+	};
 
 	return (
     <div className="h-screen w-screen relative border flex items-center overflow-hidden justify-center">

@@ -8,6 +8,7 @@ const App = () => {
 	return (
 		<Routes>
 			<Route path="/" element = {<Login />} />
+			{/* guard the '/dashboard' route by ProtectedRoute element, which checks whether user is valid or not */}
 			<Route path="/dashboard" element = {<ProtectedRoute>
 				<Dashboard/>
 			</ProtectedRoute>}

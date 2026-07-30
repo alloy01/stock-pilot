@@ -4,10 +4,14 @@ import { Navigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
 const Login = () => {
+    // fetch the required vars from context
     const {user, loading} = useContext(AuthContext);
+
+    // if loading show loading
     if(loading){
         return <div>Loading...</div>
     }
+    // if user is already present i.e. user already has a token on it machine then redirect it to '/dashboard'
     if(user){
         return <Navigate to="/dashboard" />
     }
