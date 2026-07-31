@@ -1,17 +1,34 @@
+import { useContext } from "react"
+import { AuthContext } from "../context/AuthContext.jsx"
+import api from "../api/axios.js";
+
 const Dashboard = () => {
+    // getting the username to show it on display
+    const {username} = useContext(AuthContext);
+
+    // handling the logout button
+    const logout = async () => {
+        try{
+            api.post("/auth/logout");
+            window.location.reload();
+        }
+        catch(err){
+            console.log(err,err.message);
+        }
+    }
+
     return(
         <div className="bg-black min-h-screen">
-            <div className="flex justify-between py-8 px-8 items-center text-slate-100 font-mono">
-                <div>
-                    <p className="">username</p>
-                </div>
-                <p                         className=" text-2xl underline underline-offset-12">StockPilot📦- Dashboard
+            <div className="py-8 px-8 flex-col flex items-center text-slate-100 gap-y-8 font-mono">
+                <p className=" text-2xl">StockPilot📦- Dashboard
                 </p>
-                <div>
-                    <button className=" border-2 border-slate-100 px-2 py-1">
+                <div className="flex justify-between w-full px-8">
+                    <p className="text-xl">{username}</p>
+                    <button className=" border-2 border-slate-100 px-2 py-1" onClick={logout}>
                         logout
                     </button>
                 </div>
+               
             </div>
         </div>
     )
