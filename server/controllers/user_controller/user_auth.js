@@ -9,9 +9,9 @@ export const register = async (req,res)=>{
     }
     //check if req.body is empty
 
-    const {email,password} = req.body;
+    const {username,email,password} = req.body;
 
-    if(!email || !password){
+    if(!username || !email || !password){
         return res_help(res,false,"Incomplete details.")
     }
     //check if details are incomplete
@@ -25,14 +25,15 @@ export const register = async (req,res)=>{
 
         const hashedPassword = await bcrypt.hash(password,10)
         const user = new userModel({
+            username,
             email,
             password:hashedPassword
         })
         await user.save();
         //hash the password entered by the user and create a new document with the details and save
 
-        const token = jwt.sign({id:user._id},process.env.JWT_SECRET,{expiresIn: '30d'})
-        //creating a token that has user id encoded in it with the help of enviornment variable JWT_SECRET that expires in 30 days
+        const token = jwt.sign({id:user._id,username:user.username},process.env.JWT_SECRET,{expiresIn: '30d'})
+        //creating a token that has user id and username encoded in it with the help of enviornment variable JWT_SECRET that expires in 30 days
 
         res.cookie('token',token,{
             httpOnly: true,
@@ -55,10 +56,10 @@ export const login = async (req,res)=>{
     }
     //check if req.body is empty
 
-    const {email,password} = req.body;
+    const {username,email,password} = req.body;
     //get email and password from the body of request 
 
-    if(!email || !password){
+    if(!username || !email || !password){
         return res_help(res,false,"Email and password are required.")
     }
     //check for missing detail
@@ -78,8 +79,8 @@ export const login = async (req,res)=>{
         }
         //if password is wrong then response will be invalid email or password to avoid brute force attempt by intruder
 
-        const token = jwt.sign({id:user._id},process.env.JWT_SECRET,{expiresIn: '30d'})
-        //creating a token that has user id encoded in it with the help of enviornment variable JWT_SECRET that expires in 30 days
+        const token = jwt.sign({id:user._id,username:user.username},process.env.JWT_SECRET,{expiresIn: '30d'})
+        //creating a token that has user id and username encoded in it with the help of enviornment variable JWT_SECRET that expires in 30 days
 
         res.cookie('token',token,{
             httpOnly: true,
@@ -116,7 +117,8 @@ export const isAuthenticated = async (req,res)=>{
     try{
         return res.json({
             success:true,
-            userId:req.user.id
+            userId:req.user.id,
+            username:req.username
         });
     }
     catch(err){
