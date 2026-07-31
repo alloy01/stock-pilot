@@ -56,10 +56,10 @@ export const login = async (req,res)=>{
     }
     //check if req.body is empty
 
-    const {username,email,password} = req.body;
+    const {email,password} = req.body;
     //get email and password from the body of request 
 
-    if(!username || !email || !password){
+    if(!email || !password){
         return res_help(res,false,"Email and password are required.")
     }
     //check for missing detail
@@ -118,7 +118,7 @@ export const isAuthenticated = async (req,res)=>{
         return res.json({
             success:true,
             userId:req.user.id,
-            username:req.username
+            username:req.user.username
         });
     }
     catch(err){
