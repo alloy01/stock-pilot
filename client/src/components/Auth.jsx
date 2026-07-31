@@ -57,8 +57,6 @@ const Auth = () => {
 			payload
 		);
 
-		console.log(response.data); //temporary thingy for development
-
 		if (response.data){
 			setFormData({
 			email: "",
@@ -89,6 +87,7 @@ const Auth = () => {
 
 	// initial form data
 	const [formData, setFormData] = useState({
+		username: "",
 		email: "",
 		password: "",
 	});
@@ -141,6 +140,20 @@ const Auth = () => {
 
 			{/* form for auth */}
 			<form onSubmit={handleSubmit} className="flex flex-col gap-y-2">
+				{
+					signWall ? 
+					(
+						<input
+						type="text"
+						name="username"
+						value={formData.username}
+						onChange={handleChange}
+						placeholder="enter your username."
+						className="outline-0 py-1 text-slate-300 font-mono"
+						/>
+					) : null
+				}
+
 				<input
 					type="email"
 					name="email"
