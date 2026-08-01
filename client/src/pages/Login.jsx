@@ -9,7 +9,11 @@ const Login = () => {
 
     // if loading show loading
     if(loading){
-        return <div>Loading...</div>
+        return (
+            <div className="min-h-screen bg-black flex items-center justify-center">
+                <p className="font-mono text-stone-200 text-2xl">loading...</p>
+            </div>
+        )
     }
     // if user is already present i.e. user already has a token on it machine then redirect it to '/dashboard'
     if(user){
