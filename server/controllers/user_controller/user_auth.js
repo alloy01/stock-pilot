@@ -11,8 +11,14 @@ export const register = async (req,res)=>{
 
     const {username,email,password} = req.body;
 
-    if(!username || !email || !password){
-        return res_help(res,false,"Incomplete details.")
+    if(!username){
+        return res_help(res,false,"Username is required.")
+    }
+    if(!email){
+        return res_help(res,false,"Email is required.")
+    }
+    if(!password){
+        return res_help(res,false,"Password is required.")
     }
     //check if details are incomplete
 
@@ -59,8 +65,11 @@ export const login = async (req,res)=>{
     const {email,password} = req.body;
     //get email and password from the body of request 
 
-    if(!email || !password){
-        return res_help(res,false,"Email and password are required.")
+    if(!email){
+        return res_help(res,false,"Email is required.")
+    }
+    if(!password){
+        return res_help(res,false,"Password is required.")
     }
     //check for missing detail
 
