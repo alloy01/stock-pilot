@@ -116,7 +116,7 @@ const Auth = () => {
 		{/* login button */}
 		<button
 			onClick={handleAuthWall}
-			className={`text-slate-200 border-2 border-slate-200 font-mono px-5 py-1 ${authWall ? `hidden` : `block`}`}>
+			className={`text-slate-200 border-2 cursor-pointer border-slate-200 font-mono px-5 py-1 ${authWall ? `hidden` : `block`}`}>
 			Login
 		</button>
 
@@ -126,7 +126,7 @@ const Auth = () => {
 			{/* contents of authwall */}
 			<button
 			type="button"
-			className="font-mono text-s text-gray-400"
+			className="font-mono text-s cursor-pointer text-gray-400"
 			onClick={handleAuthWall}>
 				{`<`}
 			</button>
@@ -172,12 +172,12 @@ const Auth = () => {
 					<button
 					onClick={handleShowPass}
 					type="button"
-					className="text-slate-400 font-mono"
+					className="text-slate-400 font-mono cursor-pointer"
 					>{`${showPass ? `hide` : `show`}`}</button>
 				</div>
 				<button
 					type="submit"
-					className="font-mono text-slate-100 mt-3 py-1 border">
+					className="font-mono text-slate-100 mt-3 py-1 border cursor-pointer">
 					{signWall ? `create` : `login`}
 				</button>
 			</form>
@@ -187,7 +187,7 @@ const Auth = () => {
 				<p className="font-mono text-xs text-gray-400">{`${signWall ? `already` : `don't`} have an account?`}</p>
 				<button
 					type="button"
-					className="font-mono text-xs text-gray-200 border px-4 py-1"
+					className="font-mono text-xs text-gray-200 border cursor-pointer px-4 py-1"
 					onClick={handleAuthType}>
 						{`${signWall ? `login` : `create`}`}
 				</button>

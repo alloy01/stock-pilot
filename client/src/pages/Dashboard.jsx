@@ -24,7 +24,7 @@ const Dashboard = () => {
                 </p>
                 <div className="flex justify-between w-full px-8">
                     <p className="text-xl">{username}</p>
-                    <button className=" border-2 border-slate-100 px-2 py-1" onClick={logout}>
+                    <button className=" border-2 border-slate-100 px-2 py-1 cursor-pointer" onClick={logout}>
                         logout
                     </button>
                 </div>
