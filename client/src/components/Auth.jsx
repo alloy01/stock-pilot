@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext.jsx";
 import { useNavigate } from "react-router-dom";
 import api from "../api/axios.js";
+import Toast from "./Toast.jsx";
 
 const Auth = () => {
 	// to see whether user is authenticated or not if not then redirect it to '/'
@@ -39,10 +40,17 @@ const Auth = () => {
 		}
 	};
 
-	// handle the toast
-	const [toast, setToast] = useState("");
-	const handleToast = () => {
-		setToast("");
+	// toast states to update toast component as soon as they update
+	const [toastBlock, setToastBlock] = useState(false);
+	const [toastMessage, setToastMessage] = useState("");
+
+	// timeout to auto hide toast
+	const showToast = () => {
+		setToastBlock(true);
+
+		setTimeout(() => {
+			setToastBlock(false);
+		},3000);
 	}
 
 	// handle submit button
@@ -63,25 +71,22 @@ const Auth = () => {
 			password: "",
 			});
 
-			// backend already created cookie
-			await checkAuth();
+			setToastMessage(response.data.message);
+			showToast();
 
-			// go inside the app
-			navigate("/dashboard");
+			if(response.data.success){
+				// backend already created cookie
+				await checkAuth();
 
-			setToast(response.data.message)
-			// automatically hides the toast after 3000ms
-			setTimeout(() => {
-  				setToast("");
-			}, 3000)
+				// go inside the app
+				navigate("/dashboard");
+			}
 		}}
 
 		catch (err) {
 			// shows the error message in toast
-			setToast(err.message)
-			setTimeout(() => {
-					setToast("");
-				}, 3000)
+			setToastMessage(err.message);
+			showToast();
 		}
 	};
 
@@ -105,17 +110,8 @@ const Auth = () => {
 	return (
     <div className="h-screen w-screen relative border flex items-center overflow-hidden justify-center">
 
-      	{/* toast notification */}
-        <div className={`w-60 h-20 absolute -right-60 top-10 bg-neutral-950 text-stone-200 border-2 border-stone-200 duration-600 transition-all ${toast != "" ? '-translate-x-72' : 'nothing'}`}>
-            <div className="relative flex justify-center items-center h-full">
-				<p className="font-mono text-center">
-					{`${toast}`}
-				</p>
-				<button className="top-0 left-2 absolute" onClick={handleToast}>
-					x
-				</button>
-			</div>
-      	</div>
+		{/* toast component */}
+		<Toast toastBlock={toastBlock} toastMessage={toastMessage}/>
 
 		{/* login button */}
 		<button
