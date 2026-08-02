@@ -7,7 +7,11 @@ export const addItem = async(req,res) => {
     }
     //check if req.body is empty
 
-    const {name,desc,category,quantity,unit,costPrice,supplier,status} = req.body;
+    const {name,desc,category,quantity,unit,costPrice,supplier,status,user} = req.body;
+
+    if(!user){
+        return res_help(res,false,"User not specified.")
+    }
 
     if(!name || !category || !quantity || !costPrice || !supplier){
         return res_help(res,false,"Incomplete details.")
@@ -15,13 +19,14 @@ export const addItem = async(req,res) => {
     //check if required details are present
 
     try{
-        const existingItem = await itemModel.findOne({name})
+        const existingItem = await itemModel.findOne({name, user})
         if(existingItem){
             return res_help(res,false,"Item already exists.")
         }
         //check if theres already an item with the same name
 
         const item = new itemModel({
+            user,
             name,
             desc,
             quantity,
@@ -48,7 +53,11 @@ export const editItem = async(req,res) => {
     }
     // check if req.body is empty 
 
-    const {name,newName,newSupplier,newQuantity,newCostPrice,newStatus,newCategory,newUnit,newDesc} = req.body;
+    const {name,newName,newSupplier,newQuantity,newCostPrice,newStatus,newCategory,newUnit,newDesc,user} = req.body;
+
+    if(!user){
+        return res_help(res,false,"User not specified.")
+    }
 
     if(!name){
         return res_help(res,false,"Incomplete details.")
@@ -60,13 +69,13 @@ export const editItem = async(req,res) => {
     }
 
     try{
-        const existingItem = await itemModel.findOne({name})
+        const existingItem = await itemModel.findOne({name, user})
         if(!existingItem){
             return res_help(res,false,"Item does not exist.")
         }
         //handling the case if item does not exist
 
-        const updatedItem = await itemModel.findOneAndUpdate({name},{
+        const updatedItem = await itemModel.findOneAndUpdate({name, user},{
             ...(newName && {name:newName}),
             ...(newSupplier && {supplier:newSupplier}),
             ...(newQuantity && {quantity:newQuantity}),
@@ -92,21 +101,25 @@ export const deleteItem = async(req,res) => {
     }
     //check if req.body is empty
 
-    const {name} = req.body;
+    const {name, user} = req.body;
+
+    if(!user){
+        return res_help(res,false,"User not specified.")
+    }
 
     if(!name){
         return res_help(res,false,"Incomplete details.")
     }
 
     try{
-        const item = await itemModel.findOne({name})
+        const item = await itemModel.findOne({name, user})
 
         if(!item){
             return res_help(res,false,"Item does not exist.")
         }
         //handling the case if item does not exist
 
-        await itemModel.findOneAndDelete({name})
+        await itemModel.findOneAndDelete({name, user})
 
         return res_help(res,true,"Item was deleted successfully.")
     }
@@ -121,7 +134,12 @@ export const filterItem = async (req,res) => {
     }
     //check if req.body is empty
 
-    const {filter,param} = req.body;
+    const {filter,param,user} = req.body;
+
+    if(!user){
+        return res_help(res,false,"User not specified.")
+    }
+
     if(!filter || !param){
         return res_help(res,false,"No filter or param provided.")
     }
@@ -130,7 +148,7 @@ export const filterItem = async (req,res) => {
     try{
         const items = await itemModel.find({
             [filter] : param
-        })
+        , user})
         //find the matches of filter x param
 
         if(items.length == 0){
