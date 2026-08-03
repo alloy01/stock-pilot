@@ -64,8 +64,8 @@ export const editItem = async(req,res) => {
     }
     //check if details are missing
 
-    if(!newName && !newDesc && !newCategory &&!newCostPrice && !newSupplier && !newSupplier && !newUnit){
-        return res_help(res,false,"No parameter for updataion.")
+    if(!newName && !newDesc && !newCategory && !newCostPrice && !newSupplier && !newQuantity && !newUnit){
+        return res_help(res,false,"No parameter found for updataion.")
     }
 
     try{
@@ -141,7 +141,7 @@ export const filterItem = async (req,res) => {
     }
 
     if(!filter || !param){
-        return res_help(res,false,"No filter or param provided.")
+        return res_help(res,false,"No filter or parameter provided.")
     }
     //filter is the field name, param is the value to search for (e.g., category = "medicine")
 
@@ -152,13 +152,13 @@ export const filterItem = async (req,res) => {
         //find the matches of filter x param
 
         if(items.length == 0){
-            return res_help(res,false,"No matches of filter & param found.")
+            return res_help(res,false,"No matches of filter & parameter found.")
         }
         //handling if match not found
 
         return res.json({
             success:true,
-            message:"Match of filter & param found.",
+            message:"Match of filter & parameter found.",
             payload:items
         })
     }
