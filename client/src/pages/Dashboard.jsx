@@ -42,7 +42,7 @@ const Dashboard = () => {
     const [modifyState,setModifyState] = useState(null);
 
     return(
-        <div className="bg-black min-h-screen">
+        <div className="bg-black min-h-screen overflow-hidden">
             {/* info bar */}
             <div className="py-8 px-8 flex-col flex items-center text-slate-100 gap-y-8 font-mono">
                 <p className=" text-2xl">StockPilot📦- Dashboard
@@ -98,7 +98,7 @@ const Dashboard = () => {
                             <p className="text-center text-stone-200">{modifyState}</p>
                         </div>
                         <div className="px-4 flex flex-col gap-y-2">
-                            <input type="text" name="item_name" placeholder="enter item name." required className="outline-0 py-1 text-slate-300 font-mono w-max"/>
+                            <input type="text" name="item_name" placeholder="enter item name." required className={`outline-0 py-1 text-slate-300 font-mono w-max ${modifyState == "filter item" ? "hidden" : "block"}`}/>
 
                             <input type="number" name="item_quantity" placeholder="enter quantity." required className={`outline-0 py-1 text-slate-300 font-mono w-max ${modifyState == "add item" || modifyState == "edit item" ? "block" : "hidden"}`}/>
 
@@ -113,6 +113,10 @@ const Dashboard = () => {
                             <input name="item_status" placeholder="enter status." id="item_status" className={`outline-0 py-1 text-slate-300 font-mono w-max ${modifyState == "add item" || modifyState == "edit item" ? "block" : "hidden"}`}/>
 
                             <input type="text" name="item_unit" placeholder="enter unit." className={`outline-0 py-1 text-slate-300 font-mono w-max ${modifyState == "add item" || modifyState == "edit item" ? "block" : "hidden"}`}/>
+
+                            <input type="text" name="item_filter_field" placeholder="enter field." className={`outline-0 py-1 text-slate-300 font-mono w-max ${modifyState == "filter item" ? "block" : "hidden"}`}/>
+
+                            <input type="text" name="item_filter_param" placeholder="enter parameter." className={`outline-0 py-1 text-slate-300 font-mono w-max ${modifyState == "filter item" ? "block" : "hidden"}`}/>
                         </div>
 
                         <button className=" border-2 border-slate-100 px-8 py-1 cursor-pointer text-stone-200 w-fit self-center">
