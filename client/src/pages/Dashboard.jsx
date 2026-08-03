@@ -24,19 +24,23 @@ const Dashboard = () => {
     const [filterItem,setFilterItem] = useState(false);
 
     // functions for handling modify buttons
-    const handleModifyButtons = (modifyItem,setModifyItem) => {
+    const handleModifyButtons = (modifyItem,setModifyItem,modifyState) => {
         if(modifyItem == false){
             setAddItem(false);
             setDeleteItem(false);
             setEditItem(false);
             setFilterItem(false);
             setModifyItem(true);
+            setModifyState(modifyState)
 
         }else{
             setModifyItem(false);
         }
     }
-    
+
+    // modify state like "edit item" will help us to what input fields to show when user clicks modify buttons
+    const [modifyState,setModifyState] = useState(null);
+
     return(
         <div className="bg-black min-h-screen">
             {/* info bar */}
@@ -55,31 +59,64 @@ const Dashboard = () => {
             <div className=" h-auto w-screen font-mono px-16 flex gap-x-4">
 
                 {/* modify items component */}
-                <div className="h-fit bg-slate-400/10 w-1/4 border border-stone-100/20 rounded-2xl px-4 py-4">
-                    <div className="text-center">
-                        <p className="text-stone-200 text-lg whitespace-nowrap underline-offset-8 underline">Modify item
-                        </p>
+                <div className="flex flex-col gap-y-6">
+
+                    {/* modify items button component */}
+                    <div className="h-fit bg-slate-400/10 border border-stone-100/20 rounded-2xl px-4 py-4 text-nowrap">
+                        <div className="text-center">
+                            <p className="text-stone-200 text-lg whitespace-nowrap underline-offset-8 underline">Modify item
+                            </p>
+                        </div>
+                        <div className="text-center text-stone-200 mt-4 grid grid-cols-1 lg:grid-cols-2 lg:gap-x-2">
+                            <button className="cursor-pointer mb-2 px-2 border-2" onClick={() => {
+                                handleModifyButtons(addItem,setAddItem,"add item");
+                            }}>
+                            {`Add item >`}
+                            </button>
+                            <button className="cursor-pointer mb-2 px-2 border-2" onClick={() => {
+                                handleModifyButtons(editItem,setEditItem,"edit item");
+                            }}>
+                            {`Edit item >`}
+                            </button>
+                            <button className="cursor-pointer mb-2 px-2 border-2" onClick={() => {
+                                handleModifyButtons(filterItem,setFilterItem,"filter item");
+                            }}>
+                            {`Filter item >`}
+                            </button>
+                            <button className="cursor-pointer mb-2 px-2 border-2" onClick={() => {
+                                handleModifyButtons(deleteItem,setDeleteItem,"delete item");
+                            }}>
+                            {`Delete item >`}
+                            </button>
+                        </div>
                     </div>
-                    <div className="text-center text-stone-200 mt-4 grid grid-cols-1 lg:grid-cols-2 lg:gap-x-2">
-                        <button className="cursor-pointer mb-2 border-2" onClick={() => {
-                            handleModifyButtons(addItem,setAddItem);
-                        }}>
-                           {`Add item >`}
-                        </button>
-                        <button className="cursor-pointer mb-2 border-2" onClick={() => {
-                            handleModifyButtons(editItem,setEditItem);
-                        }}>
-                           {`Edit item >`}
-                        </button>
-                        <button className="cursor-pointer mb-2 border-2" onClick={() => {
-                            handleModifyButtons(filterItem,setFilterItem);
-                        }}>
-                           {`Filter item >`}
-                        </button>
-                        <button className="cursor-pointer mb-2 border-2" onClick={() => {
-                            handleModifyButtons(deleteItem,setDeleteItem);
-                        }}>
-                           {`Delete item >`}
+
+                    {/* modify items content area */}
+
+                    <div className={`bg-slate-400/10 border border-stone-100/20 rounded-2xl py-2 pb-4 px-2 gap-y-4 flex-col ${addItem || deleteItem || filterItem || editItem ? "flex" : "hidden"}`}>
+                        <div>
+                            <p className="text-center text-stone-200">{modifyState}</p>
+                        </div>
+                        <div className="px-4 flex flex-col gap-y-2">
+                            <input type="text" name="item_name" placeholder="enter item name." required className="outline-0 py-1 text-slate-300 font-mono w-max"/>
+
+                            <input type="number" name="item_quantity" placeholder="enter quantity." required className={`outline-0 py-1 text-slate-300 font-mono w-max ${modifyState == "add item" || modifyState == "edit item" ? "block" : "hidden"}`}/>
+
+                            <input type="text" name="item_category" placeholder="enter category." required className={`outline-0 py-1 text-slate-300 font-mono w-max ${modifyState == "add item" || modifyState == "edit item" ? "block" : "hidden"}`}/>
+
+                            <input type="text" name="item_supplier" placeholder="enter supplier." required className={`outline-0 py-1 text-slate-300 font-mono w-max ${modifyState == "add item" || modifyState == "edit item" ? "block" : "hidden"}`}/>
+
+                            <input type="text" name="item_costprice" placeholder="enter costprice." required className={`outline-0 py-1 text-slate-300 font-mono w-max ${modifyState == "add item" || modifyState == "edit item" ? "block" : "hidden"}`}/>
+
+                            <input type="text" name="item_desc" placeholder="enter desc." className={`outline-0 py-1 text-slate-300 font-mono w-max ${modifyState == "add item" || modifyState == "edit item" ? "block" : "hidden"}`}/>
+
+                            <input name="item_status" placeholder="enter status." id="item_status" className={`outline-0 py-1 text-slate-300 font-mono w-max ${modifyState == "add item" || modifyState == "edit item" ? "block" : "hidden"}`}/>
+
+                            <input type="text" name="item_unit" placeholder="enter unit." className={`outline-0 py-1 text-slate-300 font-mono w-max ${modifyState == "add item" || modifyState == "edit item" ? "block" : "hidden"}`}/>
+                        </div>
+
+                        <button className=" border-2 border-slate-100 px-8 py-1 cursor-pointer text-stone-200 w-fit self-center">
+                            Done
                         </button>
                     </div>
                 </div>
