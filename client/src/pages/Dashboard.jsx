@@ -24,55 +24,19 @@ const Dashboard = () => {
     const [filterItem,setFilterItem] = useState(false);
 
     // functions for handling modify buttons
-    const handleAddButton = () => {
-        if(addItem == false){
-            setAddItem(true);
-            setDeleteItem(false);
-            setFilterItem(false);
-            setEditItem(false);
-        }else{
-            setAddItem(false);
-        }
-    }
-
-    const handleEditButton = () => {
-        if(editItem == false){
-            setEditItem(true);
+    const handleModifyButtons = (modifyItem,setModifyItem) => {
+        if(modifyItem == false){
             setAddItem(false);
             setDeleteItem(false);
-            setFilterItem(false);
-        }else{
             setEditItem(false);
+            setFilterItem(false);
+            setModifyItem(true);
+
+        }else{
+            setModifyItem(false);
         }
     }
-    const handleDeleteButton = () => {
-        if(deleteItem == false){
-            setDeleteItem(true);
-            setEditItem(false);
-            setAddItem(false);
-            setFilterItem(false);
-        }else{
-            setDeleteItem(false);
-        }
-    }
-
-    const handleFilterButton = () => {
-        if(filterItem == false){
-            setFilterItem(true);
-            setEditItem(false);
-            setAddItem(false);
-            setDeleteItem(false);
-        }else{
-            setFilterItem(false);
-        }
-    }
-
-    console.log(`additem - ${addItem}`);
-    console.log(`edititem - ${editItem}`);
-    console.log(`deleteitem - ${deleteItem}`);
-    console.log(`filteritem - ${filterItem}`);
-
-
+    
     return(
         <div className="bg-black min-h-screen">
             {/* info bar */}
@@ -97,16 +61,24 @@ const Dashboard = () => {
                         </p>
                     </div>
                     <div className="text-center text-stone-200 mt-4 grid grid-cols-1 lg:grid-cols-2 lg:gap-x-2">
-                        <button className="cursor-pointer mb-2 border-2" onClick={handleAddButton}>
+                        <button className="cursor-pointer mb-2 border-2" onClick={() => {
+                            handleModifyButtons(addItem,setAddItem);
+                        }}>
                            {`Add item >`}
                         </button>
-                        <button className="cursor-pointer mb-2 border-2" onClick={handleEditButton}>
+                        <button className="cursor-pointer mb-2 border-2" onClick={() => {
+                            handleModifyButtons(editItem,setEditItem);
+                        }}>
                            {`Edit item >`}
                         </button>
-                        <button className="cursor-pointer mb-2 border-2" onClick={handleFilterButton}>
+                        <button className="cursor-pointer mb-2 border-2" onClick={() => {
+                            handleModifyButtons(filterItem,setFilterItem);
+                        }}>
                            {`Filter item >`}
                         </button>
-                        <button className="cursor-pointer mb-2 border-2" onClick={handleDeleteButton}>
+                        <button className="cursor-pointer mb-2 border-2" onClick={() => {
+                            handleModifyButtons(deleteItem,setDeleteItem);
+                        }}>
                            {`Delete item >`}
                         </button>
                     </div>
