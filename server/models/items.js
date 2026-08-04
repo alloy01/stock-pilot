@@ -24,7 +24,6 @@ const itemSchema = mongoose.Schema({
     },
     item_unit:{
         type:String,
-        required:true,
         default:"Piece"
     },
     item_costprice:{
