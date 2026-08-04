@@ -7,19 +7,19 @@ export const addItem = async(req,res) => {
     }
     //check if req.body is empty
 
-    const {name,desc,category,quantity,unit,costPrice,supplier,status,user} = req.body;
+    const {item_name, item_desc, item_category, item_quantity, item_unit, item_costprice, item_supplier, item_status, user} = req.body;
 
     if(!user){
         return res_help(res,false,"User not specified.")
     }
 
-    if(!name || !category || !quantity || !costPrice || !supplier){
+    if(!item_name || !item_category || !item_quantity || !item_costprice || !item_supplier){
         return res_help(res,false,"Incomplete details.")
     }
     //check if required details are present
 
     try{
-        const existingItem = await itemModel.findOne({name, user})
+        const existingItem = await itemModel.findOne({item_name, user})
         if(existingItem){
             return res_help(res,false,"Item already exists.")
         }
@@ -27,14 +27,14 @@ export const addItem = async(req,res) => {
 
         const item = new itemModel({
             user,
-            name,
-            desc,
-            quantity,
-            unit,
-            category,
-            costPrice,
-            supplier,
-            status
+            item_name,
+            item_desc,
+            item_quantity,
+            item_unit,
+            item_category,
+            item_costprice,
+            item_supplier,
+            item_status
         })
 
         await item.save();
@@ -53,18 +53,18 @@ export const editItem = async(req,res) => {
     }
     // check if req.body is empty 
 
-    const {name,newName,newSupplier,newQuantity,newCostPrice,newStatus,newCategory,newUnit,newDesc,user} = req.body;
+    const {item_name, item_supplier, item_quantity, item_costprice, item_category, item_unit, item_status, item_desc, user} = req.body;
 
     if(!user){
         return res_help(res,false,"User not specified.")
     }
 
-    if(!name){
+    if(!item_name){
         return res_help(res,false,"Incomplete details.")
     }
     //check if details are missing
 
-    if(!newName && !newDesc && !newCategory && !newCostPrice && !newSupplier && !newQuantity && !newUnit){
+    if(!item_desc && !item_category && !item_costprice && !item_status && !item_quantity && !item_unit && !item_supplier){
         return res_help(res,false,"No parameter found for updataion.")
     }
 
@@ -75,16 +75,14 @@ export const editItem = async(req,res) => {
         }
         //handling the case if item does not exist
 
-        const updatedItem = await itemModel.findOneAndUpdate({name, user},{
-            ...(newName && {name:newName}),
-            ...(newSupplier && {supplier:newSupplier}),
-            ...(newQuantity && {quantity:newQuantity}),
-            ...(newStatus && {status:newStatus}),
-            ...(newCostPrice && {costPrice:newCostPrice}),
-            ...(newCategory && {category:newCategory}),
-            ...(newUnit && {unit:newUnit}),
-            ...(newDesc && {desc:newDesc}),
-
+        const updatedItem = await itemModel.findOneAndUpdate({item_name, user},{
+            ...(item_supplier && { item_supplier }),
+            ...(item_quantity && { item_quantity }),
+            ...(item_status && { item_status }),
+            ...(item_costprice && { item_costprice }),
+            ...(item_category && { item_category }),
+            ...(item_unit && { item_unit }),
+            ...(item_desc && { item_desc })
         },{new:true});
         // update the variables whose parameters are present
 
@@ -101,25 +99,25 @@ export const deleteItem = async(req,res) => {
     }
     //check if req.body is empty
 
-    const {name, user} = req.body;
+    const {item_name, user} = req.body;
 
     if(!user){
         return res_help(res,false,"User not specified.")
     }
 
-    if(!name){
+    if(!item_name){
         return res_help(res,false,"Incomplete details.")
     }
 
     try{
-        const item = await itemModel.findOne({name, user})
+        const item = await itemModel.findOne({item_name, user})
 
         if(!item){
             return res_help(res,false,"Item does not exist.")
         }
         //handling the case if item does not exist
 
-        await itemModel.findOneAndDelete({name, user})
+        await itemModel.findOneAndDelete({item_name, user})
 
         return res_help(res,true,"Item was deleted successfully.")
     }
@@ -134,20 +132,20 @@ export const filterItem = async (req,res) => {
     }
     //check if req.body is empty
 
-    const {filter,param,user} = req.body;
+    const {item_filter_field, item_filter_param, user} = req.body;
 
     if(!user){
         return res_help(res,false,"User not specified.")
     }
 
-    if(!filter || !param){
+    if(!item_filter_field || !item_filter_param){
         return res_help(res,false,"No filter or parameter provided.")
     }
     //filter is the field name, param is the value to search for (e.g., category = "medicine")
 
     try{
         const items = await itemModel.find({
-            [filter] : param
+            [item_filter_field] : item_filter_param
         , user})
         //find the matches of filter x param
 
