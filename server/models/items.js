@@ -5,37 +5,37 @@ const itemSchema = mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'user'
     },
-    name:{
+    item_name:{
         type:String,
         required:true
     },
-    desc:{
+    item_desc:{
         type:String,
         default: ' '
     },
-    category:{
+    item_category:{
         type:String,
         required:true
     },
-    quantity:{
+    item_quantity:{
         type:Number,
         required:true,
         default: 1
     },
-    unit:{
+    item_unit:{
         type:String,
         required:true,
         default:"Piece"
     },
-    costPrice:{
+    item_costprice:{
         type:Number,
         required:true
     },
-    supplier:{
+    item_supplier:{
         type:String,
         required:true
     },
-    status:{
+    item_status:{
         type:String,
         enum:["Out of Stock","In Stock"],
         default:"Out of Stock"
