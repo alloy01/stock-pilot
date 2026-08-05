@@ -1,11 +1,32 @@
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { AuthContext } from "../context/AuthContext.jsx"
 import api from "../api/axios.js";
 import Toast from "../components/Toast.jsx";
 
 const Dashboard = () => {
     // getting the username to show it on display
-    const {username, user} = useContext(AuthContext);
+    const {username} = useContext(AuthContext);
+
+    // fetching the latest 50 documents on login
+    const fetchDocs = async () => {
+        try{
+            const response = await api.get("/item/fetch-docs");
+            
+            // showing message in the toast
+            setToastMessage(response.data.message);
+            showToast();
+        }
+        catch(err){
+            // showing error in the toast
+            setToastMessage(err.message);
+            showToast();
+        }
+    }
+
+    // react hook to fetch again when anything updates
+    useEffect(() => {
+        fetchDocs();
+    }, []);
 
     // handling the logout button
     const logout = async () => {
@@ -76,8 +97,7 @@ const Dashboard = () => {
                     item_filter_param: "",
                     item_status: "In Stock",
                     item_supplier: "",
-                    item_costprice: "",
-                    user: user
+                    item_costprice: ""
                 })
 
                 setToastMessage(response.data.message);
@@ -103,8 +123,7 @@ const Dashboard = () => {
         item_filter_param: "",
         item_status: "In Stock",
         item_supplier: "",
-        item_costprice: "",
-        user: user
+        item_costprice: ""
     })
 
     // controlled imput

@@ -180,7 +180,7 @@ export const getRecentDocument = async (req, res) => {
         const documents = await itemModel.find({user}).sort({createdAt: -1}).limit(50)
 
         return res.json({
-            success: false,
+            success: true,
             message: "Documents fetched successfully.",
             payload: documents
         })
