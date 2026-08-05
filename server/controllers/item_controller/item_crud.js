@@ -172,3 +172,20 @@ export const filterItem = async (req,res) => {
         return res_help(res,false,err.message.toString())
     }
 }
+
+export const getRecentDocument = async (req, res) => {
+    const user = req.user.id;
+
+    try{
+        const documents = await itemModel.find({user}).sort({createdAt: -1}).limit(50)
+
+        return res.json({
+            success: false,
+            message: "Documents fetched successfully.",
+            payload: documents
+        })
+    }
+    catch(err){
+        return res_help(res, false, err.message)
+    }
+}
