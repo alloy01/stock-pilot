@@ -15,7 +15,7 @@ export const addItem = async(req,res) => {
         return res_help(res,false,"User not specified.")
     }
 
-    if(!item_name || !item_category || !item_quantity || !item_costprice || !item_supplier){
+    if(!item_name || !item_category || item_quantity === undefined || item_costprice === undefined || !item_supplier){
         return res_help(res,false,"Incomplete details.")
     }
     //check if required details are present
@@ -68,7 +68,7 @@ export const editItem = async(req,res) => {
     }
     //check if details are missing
 
-    if(!item_desc && !item_category && !item_costprice && !item_status && !item_quantity && !item_unit && !item_supplier){
+    if(!item_desc && !item_category && item_quantity === undefined && !item_status && item_costprice === undefined && !item_unit && !item_supplier){
         return res_help(res,false,"No parameter found to update.")
     }
 
