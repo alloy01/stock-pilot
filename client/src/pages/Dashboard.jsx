@@ -5,7 +5,7 @@ import Toast from "../components/Toast.jsx";
 
 const Dashboard = () => {
     // getting the username to show it on display
-    const {username} = useContext(AuthContext);
+    const {username, user} = useContext(AuthContext);
 
     // handling the logout button
     const logout = async () => {
@@ -14,7 +14,8 @@ const Dashboard = () => {
             window.location.reload();
         }
         catch(err){
-            console.log(err,err.message);
+            setToastMessage(err.message);
+            showToast();
         }
     }
 
@@ -76,12 +77,11 @@ const Dashboard = () => {
                     item_status: "In Stock",
                     item_supplier: "",
                     item_costprice: "",
-                    user: '6a6c6d27a27809858eb6db88'
+                    user: user
                 })
 
                 setToastMessage(response.data.message);
                 showToast();
-                console.log(response.data);
             }
         }
 
@@ -104,7 +104,7 @@ const Dashboard = () => {
         item_status: "In Stock",
         item_supplier: "",
         item_costprice: "",
-        user: '6a6c6d27a27809858eb6db88'
+        user: user
     })
 
     // controlled imput
