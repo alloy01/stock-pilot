@@ -7,7 +7,9 @@ export const addItem = async(req,res) => {
     }
     //check if req.body is empty
 
-    const {item_name, item_desc, item_category, item_quantity, item_unit, item_costprice, item_supplier, item_status, user} = req.body;
+    const user = req.user.id;
+
+    const {item_name, item_desc, item_category, item_quantity, item_unit, item_costprice, item_supplier, item_status} = req.body;
 
     if(!user){
         return res_help(res,false,"User not specified.")
@@ -53,7 +55,9 @@ export const editItem = async(req,res) => {
     }
     // check if req.body is empty 
 
-    const {item_name, item_supplier, item_quantity, item_costprice, item_category, item_unit, item_status, item_desc, user} = req.body;
+    const user = req.user.id;
+
+    const {item_name, item_supplier, item_quantity, item_costprice, item_category, item_unit, item_status, item_desc} = req.body;
 
     if(!user){
         return res_help(res,false,"User not specified.")
@@ -65,11 +69,11 @@ export const editItem = async(req,res) => {
     //check if details are missing
 
     if(!item_desc && !item_category && !item_costprice && !item_status && !item_quantity && !item_unit && !item_supplier){
-        return res_help(res,false,"No parameter found for updataion.")
+        return res_help(res,false,"No parameter found to update.")
     }
 
     try{
-        const existingItem = await itemModel.findOne({name, user})
+        const existingItem = await itemModel.findOne({item_name, user})
         if(!existingItem){
             return res_help(res,false,"Item does not exist.")
         }
@@ -99,7 +103,9 @@ export const deleteItem = async(req,res) => {
     }
     //check if req.body is empty
 
-    const {item_name, user} = req.body;
+    const user = req.user.id;
+
+    const {item_name} = req.body;
 
     if(!user){
         return res_help(res,false,"User not specified.")
@@ -132,7 +138,9 @@ export const filterItem = async (req,res) => {
     }
     //check if req.body is empty
 
-    const {item_filter_field, item_filter_param, user} = req.body;
+    const user = req.user.id;
+
+    const {item_filter_field, item_filter_param} = req.body;
 
     if(!user){
         return res_help(res,false,"User not specified.")
@@ -149,7 +157,7 @@ export const filterItem = async (req,res) => {
         , user})
         //find the matches of filter x param
 
-        if(items.length == 0){
+        if(items.length === 0){
             return res_help(res,false,"No matches of filter & parameter found.")
         }
         //handling if match not found
