@@ -2,10 +2,14 @@ import { useContext, useEffect, useState } from "react"
 import { AuthContext } from "../context/AuthContext.jsx"
 import api from "../api/axios.js";
 import Toast from "../components/Toast.jsx";
+import DocsItem from "../components/DocsItem.jsx";
 
 const Dashboard = () => {
     // getting the username to show it on display
     const {username} = useContext(AuthContext);
+
+    // loaded docs state
+    const [loadedDocs, setLoadedDocs] = useState(null);
 
     // fetching the latest 50 documents on login
     const fetchDocs = async () => {
@@ -15,6 +19,9 @@ const Dashboard = () => {
             // showing message in the toast
             setToastMessage(response.data.message);
             showToast();
+            setLoadedDocs(response.data.payload)
+
+            console.log(response.data.payload);
         }
         catch(err){
             // showing error in the toast
@@ -91,7 +98,7 @@ const Dashboard = () => {
                     item_name: "",
                     item_quantity: "",
                     item_category: "",
-                    item_unit: "",
+                    item_unit: "Pieces",
                     item_desc: "",
                     item_filter_field: "",
                     item_filter_param: "",
@@ -99,6 +106,11 @@ const Dashboard = () => {
                     item_supplier: "",
                     item_costprice: ""
                 })
+
+                // reload the window when api is successful
+                if(response.data.success){
+                    window.location.reload()
+                }
 
                 setToastMessage(response.data.message);
                 showToast();
@@ -117,7 +129,7 @@ const Dashboard = () => {
         item_name: "",
         item_quantity: "",
         item_category: "",
-        item_unit: "",
+        item_unit: "Pieces",
         item_desc: "",
         item_filter_field: "",
         item_filter_param: "",
@@ -233,8 +245,32 @@ const Dashboard = () => {
                 <div className="bg-slate-400/10 w-3/4 rounded-2xl border border-stone-100/20 h-fit py-2 px-4"> 
                     <div>
                         <p className="text-stone-200  underline-offset-8 underline text-center text-lg">Items</p>
-                        <div className="text-stone-200 text-left mt-4 grid grid-cols-1 gap-y-1">
-                            <p>No items added</p>
+                        <div className="py-4 overflow-x-auto">
+                            {loadedDocs && loadedDocs.length > 0 ? (
+                                <table className="w-full text-stone-200 font-mono">
+                                    <thead>
+                                        <tr className="border-b border-stone-500">
+                                            <th className="text-left py-2 px-3">Name</th>
+                                            <th className="text-left py-2 px-3">Category</th>
+                                            <th className="text-left py-2 px-3">Quantity</th>
+                                            <th className="text-left py-2 px-3">Unit</th>
+                                            <th className="text-left py-2 px-3">Supplier</th>
+                                            <th className="text-left py-2 px-3">Status</th>
+                                            <th className="text-left py-2 px-3">Cost Price</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        {loadedDocs.map((item) => (
+                                            <DocsItem key={item._id} item={item} />
+                                        ))}
+                                    </tbody>
+                                </table>
+                            ) : (
+                                <p className="text-stone-300 text-center">
+                                    No docs available.
+                                </p>
+                            )}
                         </div>
                     </div>
                 </div>
