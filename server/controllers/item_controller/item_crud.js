@@ -143,12 +143,24 @@ export const filterItem = async (req,res) => {
     const {item_filter_field, item_filter_param} = req.body;
 
     if(!user){
-        return res_help(res,false,"User not specified.")
+        return res_help(res,false,"User not specified.");
     }
 
-    if(!item_filter_field || !item_filter_param){
-        return res_help(res,false,"No filter or parameter provided.")
+    const allowedFilters = [
+        "item_name",
+        "item_category",
+        "item_supplier",
+        "item_status",
+        "item_unit",
+        "item_costprice",
+        "item_quantity"
+    ];
+    // to stop attackers from typing any arbitary values
+
+    if (!allowedFilters.includes(item_filter_field)) {
+        return res_help(res, false, "Invalid filter field.");
     }
+
     //filter is the field name, param is the value to search for (e.g., category = "medicine")
 
     try{
