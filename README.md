@@ -1,161 +1,150 @@
-# 📦 StockPilot
+# 📦 Veltro
 
 ## Open Source Inventory Management System
 
-StockPilot is an open-source inventory management system designed to help individuals and businesses efficiently manage their inventory through a lightweight, fast, and scalable platform.
-
-The goal of StockPilot is to provide a simple yet powerful inventory solution that can be self-hosted on your own server, giving users complete control over their inventory data and management process.
-
-Currently, StockPilot is in its early development phase and is being built as a web-based application. The initial release will focus on providing essential inventory management features while maintaining performance, low resource usage, and scalability.
-
----
-
-## Vision
-
-StockPilot aims to become a flexible inventory management platform that works across multiple environments.
-
-Future plans include:
-
-* Native desktop applications
-* Mobile applications
-* Cross-platform support for:
-
-  * Linux
-  * Windows
-  * macOS
-  * Mobile platforms
-
-Potential future native implementations may use efficient technologies such as Java, C++, or other suitable frameworks depending on performance and maintainability requirements.
-
----
+Veltro is an open-source inventory management system designed to provide a simple way to manage inventory through a self-hosted web application.
 
 ## Current Features
 
-The first versions of StockPilot will focus on core inventory operations:
+* ✅ User registration and authentication
+* ✅ Create inventory items
+* ✅ Edit inventory items
+* ✅ Delete inventory items
+* ✅ Filter inventory items
+* ✅ User-specific inventory
+* ✅ Session-based authentication
+* ✅ MongoDB-backed data storage
 
-* ✅ User registration and account management
-* ✅ Create, read, update, and delete (CRUD) inventory items
-* ✅ Inventory tracking
-* ✅ Low-stock threshold alerts
-* ✅ Remote-based inventory access
-* ✅ Self-hosting capability
+## Tech Stack
 
-The initial feature set will remain minimal by design, focusing on speed, reliability, and ease of use.
+### Frontend
 
----
+* React
+* Vite
+* Tailwind CSS
+* Axios
 
-## Planned Features
+### Backend
 
-As development progresses, StockPilot aims to introduce more advanced functionality:
+* Node.js
+* Express
+* MongoDB
+* Mongoose
+* JWT
+* bcrypt
+* CORS
+* cookie-parser
+* dotenv
 
-### 📊 Inventory Intelligence
+## Installation & Development
 
-* AI-powered stock trends
-* Smart inventory suggestions
-* Usage pattern analysis
+Follow the steps below to set up Veltro locally.
 
-### 📦 Stock Management
+### 1. Prerequisites
 
-* Barcode scanning
-* Advanced filtering and searching
-* Inventory reports
-* Stock movement tracking
+Install the latest LTS version of **Node.js**, which includes npm.
 
-### 👥 Access Control
+**Download:** https://nodejs.org/en
 
-* Role-based access control (RBAC)
-* Employee accounts
-* Permission management
+Verify the installation:
 
-### 🌐 Platform Expansion
+```bash
+node -v
+npm -v
+```
 
-* Native desktop applications
-* Mobile applications
-* Improved offline capabilities
+You will also need a MongoDB database.
 
----
+### 2. Clone the Repository
 
-## Why StockPilot?
+```bash
+git clone <repository-url>
+cd veltro
+```
 
-Many inventory systems are either:
+### 3. Install Dependencies
 
-* Too expensive
-* Resource-heavy
-* Locked behind proprietary platforms
-* Difficult to customize
+Install the project dependencies using:
 
-StockPilot aims to provide an alternative:
+```bash
+npm install
+```
 
-* 🚀 Fast and lightweight
-* 🔓 Fully open source
-* 🖥️ Self-hostable
-* ⚙️ Customizable for different use cases
-* 📈 Built to scale as needs grow
+If the frontend and backend are located in separate directories, install dependencies in each directory.
 
-Since StockPilot is open source, users will be able to modify and configure it according to their own requirements.
+### 4. Configure Environment Variables
 
----
+Create a `.env` file in the backend directory and add the required configuration.
+
+```env
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_secret
+PORT=5000
+```
+
+Do not commit your `.env` file to the repository.
+
+### 5. Start the Development Server
+
+Run the backend:
+
+```bash
+npm start
+```
+
+If the project uses a separate frontend development server, start it according to the frontend's package configuration.
+
+Once the backend is running, the API can be accessed at:
+
+```text
+http://localhost:<port>/api
+```
+
+Replace `<port>` with the port configured in your application.
+
+### 6. Development
+
+The backend is organized into several areas:
+
+* `models/` — Database models
+* `controllers/` — Request handling and application logic
+* `routes/` — API routes
+* `middlewares/` — Express middleware
+* `config/` — Configuration
+* `server.js` — Main server entry point
+
+If **nodemon** is configured for development, the server will automatically restart when changes are detected.
+
+## Environment Variables
+
+The exact environment variables may change as the project develops. Check the project's configuration files for the currently required values.
+
+**Never commit secrets, database credentials, or private keys to the repository.**
 
 ## Development Status
 
-🚧 **Currently under active development**
+Veltro v1 is currently under active development.
 
-StockPilot is currently in the initial development stage. Features, architecture, and technologies may evolve as the project grows.
+The core inventory functionality has been implemented. Current work is focused on code cleanup, documentation, and responsive design.
 
----
-
-## Maintainer
-
-StockPilot is currently developed and maintained by:
+## Maintainer & Developer
 
 **alloy01**
 
-The project is open for contributions from developers, designers, testers, documentation writers, and anyone interested in improving the project.
+Veltro is currently maintained and developed by **alloy01**.
 
-Contributions are always welcome. Whether it is a feature suggestion, bug report, code improvement, or documentation update, every contribution helps StockPilot grow.
+Contributions, bug reports, feature suggestions, and documentation improvements are welcome.
 
----
+## Before Deployment
 
-## Contributing
+Before deploying Veltro:
 
-Want to contribute?
-
-You can help by:
-
-* Reporting bugs
-* Suggesting improvements
-* Adding features
-* Improving documentation
-* Testing new releases
-* Reviewing code
-
-All contributors are welcome and appreciated.
-
----
-
-## Self Hosting
-
-When released, StockPilot will be designed to run on your own infrastructure.
-
-You will be able to:
-
-* Host it on your own server
-* Maintain control over your data
-* Customize the application
-* Adapt it for personal or business requirements
-
----
+* Make sure sensitive files are included in `.gitignore`.
+* Configure production environment variables.
+* Use a production MongoDB connection.
+* Never expose secrets in the repository.
+* Configure the application according to your hosting provider.
 
 ## License
 
-StockPilot is an open-source project.
-
-License details will be added when the project reaches a stable release.
-
----
-
-## Future Goal
-
-The long-term goal of StockPilot is to create a fast, efficient, and accessible inventory management ecosystem that gives users complete ownership while remaining simple enough for anyone to use.
-
-Built with passion by the open-source community for the open-source community.
+License details will be added before the first stable release.

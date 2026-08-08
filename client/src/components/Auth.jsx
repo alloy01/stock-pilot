@@ -131,7 +131,7 @@ const Auth = () => {
 				{`<`}
 			</button>
 			<div className="text-slate-200 font-mono px-5 py-4 text-xl">
-				{`${signWall ? `create` : `login`} to continue with Stock-Pilot📦`}
+				{`${signWall ? `create` : `login`} to continue with Veltro`}
 			</div>
 
 			{/* form for auth */}

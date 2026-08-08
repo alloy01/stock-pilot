@@ -157,7 +157,7 @@ const Dashboard = () => {
         <div className="bg-black min-h-screen relative overflow-hidden">
             {/* info bar */}
             <div className="py-8 px-8 flex-col flex items-center text-slate-100 gap-y-8 font-mono">
-                <p className=" text-2xl">StockPilot📦- Dashboard
+                <p className=" text-2xl">Veltro - Dashboard
                 </p>
                 <div className="flex justify-between w-full px-8">
                     <p className="text-xl">user:{username}</p>
