@@ -107,9 +107,14 @@ const Dashboard = () => {
                     item_costprice: ""
                 })
 
-                // reload the window when api is successful
-                if(response.data.success){
+                // reload the window when api is successful but if we reload the page when data for filter arrives then it vanishes so we don't reload
+
+                if(response.data.success && modifyState != 'filter'){
                     window.location.reload()
+                }
+                
+                if(modifyState == 'filter'){
+                    setLoadedDocs(response.data.payload)
                 }
 
                 setToastMessage(response.data.message);
